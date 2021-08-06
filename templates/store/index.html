@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}E-Pashu{% endblock %}
+{% block content %}
+
+<div class="container">
+  <div class="container">
+    <div class="row">
+      <div class="album py-5">
+        <div class="pb-3">
+          <h1 class="h3">Recent</h1>
+        </div>
+        {% if not animals %}
+        <div class="col-12">There are currently no animals available</div>
+        {% else %}
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 g-3">
+          {% for animal in animals %}
+          <div class="col">
+            <div class="card border-0">
+              {% for image in animal.animal_image.all %}
+              {% if image.is_feature%}
+              <img class="img-fluid" alt="Responsive image" src="{{ image.image.url }}"
+                alt="{{ image.image.alt_text }}">
+              {% endif %}
+              {% endfor %}
+              <div class="card-body px-0">
+                <p class="card-text">
+                  <a class="text-dark text-decoration-none"
+                    href="{{ animal.get_absolute_url }}"><b>{{ animal.title|slice:":50" }}</b></a>
+                </p>
+                {% comment %} <p> Created: {{animal.created_at}} </p> {% endcomment %}
+                <p><i> Recently Updated:</i> {{animal.updated_at}} </p>
+                <div class="fw-bold">₹ {{animal.regular_price}}</div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  {% endblock %}
